@@ -129,23 +129,14 @@ class AllAppsActivity : Activity(), AppListAdapter.OnAppLongClickListener {
     }
 
     private fun showAddToPriorityDialog(app: AppInfo) {
-        if (!preferenceManager.canAddMorePriorityApps()) {
-            Toast.makeText(
-                this,
-                "Maximum ${preferenceManager.getMaxPriorityApps()} priority apps allowed",
-                Toast.LENGTH_SHORT
-            ).show()
-            return
-        }
-
         AlertDialog.Builder(this)
-            .setTitle("Add to Priority")
-            .setMessage("Add ${app.appName} to priority apps?")
+            .setTitle("Add to Home")
+            .setMessage("Add ${app.appName} to home screen?")
             .setPositiveButton("Add") { _, _ ->
                 if (preferenceManager.addPriorityApp(app.packageName)) {
-                    Toast.makeText(this, "${app.appName} added to priority", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "${app.appName} added to home", Toast.LENGTH_SHORT).show()
                 } else {
-                    Toast.makeText(this, "Failed to add to priority", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Failed to add to home", Toast.LENGTH_SHORT).show()
                 }
             }
             .setNegativeButton("Cancel", null)
@@ -154,13 +145,13 @@ class AllAppsActivity : Activity(), AppListAdapter.OnAppLongClickListener {
 
     private fun showRemoveFromPriorityDialog(app: AppInfo) {
         AlertDialog.Builder(this)
-            .setTitle("Remove from Priority")
-            .setMessage("Remove ${app.appName} from priority apps?")
+            .setTitle("Remove from Home")
+            .setMessage("Remove ${app.appName} from home screen?")
             .setPositiveButton("Remove") { _, _ ->
                 if (preferenceManager.removePriorityApp(app.packageName)) {
-                    Toast.makeText(this, "${app.appName} removed from priority", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "${app.appName} removed from home", Toast.LENGTH_SHORT).show()
                 } else {
-                    Toast.makeText(this, "Failed to remove from priority", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Failed to remove from home", Toast.LENGTH_SHORT).show()
                 }
             }
             .setNegativeButton("Cancel", null)

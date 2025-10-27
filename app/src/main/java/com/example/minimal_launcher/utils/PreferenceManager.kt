@@ -15,10 +15,7 @@ class PreferenceManager(context: Context) {
     fun addPriorityApp(packageName: String): Boolean {
         val currentApps = getPriorityAppPackages().toMutableSet()
 
-        if (currentApps.size >= MAX_PRIORITY_APPS) {
-            return false // Cannot add more apps
-        }
-
+        // No limit on number of apps
         currentApps.add(packageName)
         return sharedPreferences.edit()
             .putStringSet(KEY_PRIORITY_APPS, currentApps)
@@ -42,17 +39,12 @@ class PreferenceManager(context: Context) {
         return getPriorityAppPackages().size
     }
 
-    fun getMaxPriorityApps(): Int {
-        return MAX_PRIORITY_APPS
-    }
-
     fun canAddMorePriorityApps(): Boolean {
-        return getPriorityAppsCount() < MAX_PRIORITY_APPS
+        return true // No limit
     }
 
     companion object {
         private const val PREFS_NAME = "minimal_launcher_prefs"
         private const val KEY_PRIORITY_APPS = "priority_apps"
-        private const val MAX_PRIORITY_APPS = 6
     }
 }

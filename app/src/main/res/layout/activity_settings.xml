@@ -61,7 +61,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="• Swipe left to open settings"
+        android:text="• Swipe left to open widgets (calendar)"
         android:textColor="@android:color/darker_gray"
         android:textSize="14sp"
         android:paddingVertical="4dp"
@@ -79,7 +79,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="• Maximum 6 apps on home screen"
+        android:text="• Add unlimited apps to home screen"
         android:textColor="@android:color/darker_gray"
         android:textSize="14sp"
         android:paddingVertical="4dp"
