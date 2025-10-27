@@ -101,11 +101,10 @@ class AllAppsActivity : Activity(), AppListAdapter.OnAppLongClickListener {
 
                 if (abs(diffX) > abs(diffY)) {
                     if (abs(diffX) > SWIPE_THRESHOLD && abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
-                        if (diffX > 0) {
-                            // Swipe right - go back to home
-                            finish()
-                            return true
-                        }
+                        // Swipe left or right - go back to home
+                        finish()
+                        overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+                        return true
                     }
                 }
                 return false

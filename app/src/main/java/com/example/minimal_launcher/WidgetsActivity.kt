@@ -8,7 +8,9 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.provider.CalendarContract
+import android.view.GestureDetector
 import android.view.Gravity
+import android.view.MotionEvent
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
@@ -17,6 +19,7 @@ import androidx.core.content.ContextCompat
 import com.example.minimal_launcher.services.CalendarService
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.abs
 
 class WidgetsActivity : Activity() {
     private lateinit var closeButton: TextView
@@ -26,6 +29,7 @@ class WidgetsActivity : Activity() {
     private lateinit var calendarGrid: LinearLayout
     private lateinit var eventsContainer: LinearLayout
     private lateinit var calendarService: CalendarService
+    private lateinit var gestureDetector: GestureDetector
 
     companion object {
         private const val CALENDAR_PERMISSION_REQUEST = 100
@@ -47,6 +51,7 @@ class WidgetsActivity : Activity() {
         setupButtons()
         setupCalendar()
         setupUpcomingEvents()
+        setupSwipeGesture()
     }
 
     private fun setupButtons() {
@@ -256,6 +261,40 @@ class WidgetsActivity : Activity() {
 
             setPadding(8, 8, 8, 8)
         }
+    }
+
+    private fun setupSwipeGesture() {
+        gestureDetector = GestureDetector(this, object : GestureDetector.SimpleOnGestureListener() {
+            private val SWIPE_THRESHOLD = 100
+            private val SWIPE_VELOCITY_THRESHOLD = 100
+
+            override fun onFling(
+                e1: MotionEvent?,
+                e2: MotionEvent,
+                velocityX: Float,
+                velocityY: Float
+            ): Boolean {
+                if (e1 == null) return false
+
+                val diffX = e2.x - e1.x
+                val diffY = e2.y - e1.y
+
+                if (abs(diffX) > abs(diffY)) {
+                    if (abs(diffX) > SWIPE_THRESHOLD && abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
+                        // Swipe left or right - go back to home
+                        finish()
+                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+                        return true
+                    }
+                }
+                return false
+            }
+        })
+    }
+
+    override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
+        gestureDetector.onTouchEvent(ev)
+        return super.dispatchTouchEvent(ev)
     }
 
     @Deprecated("Deprecated in Java")
