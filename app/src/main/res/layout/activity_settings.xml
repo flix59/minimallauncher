@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@android:color/black"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingBottom="16dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Settings"
+            android:textColor="@android:color/white"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/btn_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Close"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:padding="12dp"
+            android:background="@drawable/button_background"
+            android:clickable="true"
+            android:focusable="true" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        android:layout_marginBottom="16dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Launcher Settings"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:paddingVertical="8dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="• Swipe right to open all apps"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="14sp"
+        android:paddingVertical="4dp"
+        android:paddingStart="16dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="• Swipe left to open settings"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="14sp"
+        android:paddingVertical="4dp"
+        android:paddingStart="16dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="• Long press apps to add/remove from home screen"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="14sp"
+        android:paddingVertical="4dp"
+        android:paddingStart="16dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="• Maximum 6 apps on home screen"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="14sp"
+        android:paddingVertical="4dp"
+        android:paddingStart="16dp" />
+
+</LinearLayout>

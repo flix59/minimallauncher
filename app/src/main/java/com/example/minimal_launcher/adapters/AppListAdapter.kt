@@ -3,6 +3,8 @@ package com.example.minimal_launcher.adapters
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.ColorMatrix
+import android.graphics.ColorMatrixColorFilter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -61,6 +63,12 @@ class AppListAdapter(
         fun bind(app: AppInfo) {
             appIconView.setImageDrawable(app.icon)
             appNameView.text = app.appName
+
+            // Apply grayscale filter to icon
+            val colorMatrix = ColorMatrix()
+            colorMatrix.setSaturation(0f)
+            val filter = ColorMatrixColorFilter(colorMatrix)
+            appIconView.colorFilter = filter
 
             // Click to launch app
             itemView.setOnClickListener {

@@ -90,7 +90,11 @@ class MainActivity : Activity() {
                 if (abs(diffX) > abs(diffY)) {
                     if (abs(diffX) > SWIPE_THRESHOLD && abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
                         if (diffX < 0) {
-                            // Swipe left - open all apps
+                            // Swipe left - open settings
+                            openSettingsActivity()
+                            return true
+                        } else {
+                            // Swipe right - open all apps
                             openAllAppsActivity()
                             return true
                         }
@@ -110,6 +114,12 @@ class MainActivity : Activity() {
         val intent = Intent(this, AllAppsActivity::class.java)
         startActivity(intent)
         overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+    }
+
+    private fun openSettingsActivity() {
+        val intent = Intent(this, SettingsActivity::class.java)
+        startActivity(intent)
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
     }
 
     override fun onResume() {
