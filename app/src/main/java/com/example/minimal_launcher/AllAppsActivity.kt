@@ -5,6 +5,8 @@ import android.app.AlertDialog
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.GestureDetector
+import android.view.MotionEvent
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
@@ -14,12 +16,14 @@ import com.example.minimal_launcher.adapters.AppListAdapter
 import com.example.minimal_launcher.models.AppInfo
 import com.example.minimal_launcher.services.AppDiscoveryService
 import com.example.minimal_launcher.utils.PreferenceManager
+import kotlin.math.abs
 
 class AllAppsActivity : Activity(), AppListAdapter.OnAppLongClickListener {
     private lateinit var allAppsRecyclerView: RecyclerView
     private lateinit var allAppsAdapter: AppListAdapter
     private lateinit var searchEditText: EditText
     private lateinit var backButton: TextView
+    private lateinit var gestureDetector: GestureDetector
 
     private lateinit var appDiscoveryService: AppDiscoveryService
     private lateinit var preferenceManager: PreferenceManager
@@ -34,6 +38,7 @@ class AllAppsActivity : Activity(), AppListAdapter.OnAppLongClickListener {
         setupApps()
         setupSearch()
         setupBackButton()
+        setupSwipeGesture()
     }
 
     private fun initializeViews() {
@@ -76,6 +81,41 @@ class AllAppsActivity : Activity(), AppListAdapter.OnAppLongClickListener {
         backButton.setOnClickListener {
             finish()
         }
+    }
+
+    private fun setupSwipeGesture() {
+        gestureDetector = GestureDetector(this, object : GestureDetector.SimpleOnGestureListener() {
+            private val SWIPE_THRESHOLD = 100
+            private val SWIPE_VELOCITY_THRESHOLD = 100
+
+            override fun onFling(
+                e1: MotionEvent?,
+                e2: MotionEvent,
+                velocityX: Float,
+                velocityY: Float
+            ): Boolean {
+                if (e1 == null) return false
+
+                val diffX = e2.x - e1.x
+                val diffY = e2.y - e1.y
+
+                if (abs(diffX) > abs(diffY)) {
+                    if (abs(diffX) > SWIPE_THRESHOLD && abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
+                        if (diffX > 0) {
+                            // Swipe right - go back to home
+                            finish()
+                            return true
+                        }
+                    }
+                }
+                return false
+            }
+        })
+    }
+
+    override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
+        gestureDetector.onTouchEvent(ev)
+        return super.dispatchTouchEvent(ev)
     }
 
     override fun onAppLongClick(app: AppInfo) {

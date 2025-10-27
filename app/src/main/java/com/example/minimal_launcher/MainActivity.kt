@@ -1,12 +1,14 @@
 package com.example.minimal_launcher
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.minimal_launcher.adapters.AppListAdapter
@@ -15,7 +17,7 @@ import com.example.minimal_launcher.services.AppDiscoveryService
 import com.example.minimal_launcher.utils.PreferenceManager
 import kotlin.math.abs
 
-class MainActivity : Activity() {
+class MainActivity : Activity(), AppListAdapter.OnAppLongClickListener {
     private lateinit var priorityAppsRecyclerView: RecyclerView
     private lateinit var priorityAppsAdapter: AppListAdapter
     private lateinit var allAppsButton: TextView
@@ -45,6 +47,7 @@ class MainActivity : Activity() {
         // Setup priority apps RecyclerView with 2x3 grid
         priorityAppsRecyclerView.layoutManager = GridLayoutManager(this, 2)
         priorityAppsAdapter = AppListAdapter(this, showIcons = true)
+        priorityAppsAdapter.setOnAppLongClickListener(this)
         priorityAppsRecyclerView.adapter = priorityAppsAdapter
     }
 
@@ -126,6 +129,23 @@ class MainActivity : Activity() {
         super.onResume()
         // Refresh priority apps when returning from AllAppsActivity
         setupPriorityApps()
+    }
+
+    override fun onAppLongClick(app: AppInfo) {
+        // On home screen, only allow removing priority apps
+        AlertDialog.Builder(this)
+            .setTitle("Remove from Home")
+            .setMessage("Remove ${app.appName} from home screen?")
+            .setPositiveButton("Remove") { _, _ ->
+                if (preferenceManager.removePriorityApp(app.packageName)) {
+                    Toast.makeText(this, "${app.appName} removed", Toast.LENGTH_SHORT).show()
+                    setupPriorityApps() // Refresh the list
+                } else {
+                    Toast.makeText(this, "Failed to remove", Toast.LENGTH_SHORT).show()
+                }
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
     }
 
     @Deprecated("Deprecated in Java")
